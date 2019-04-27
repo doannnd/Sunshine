@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sunshine</string>
+    <string name="error_permission">Permission doesn\'t grant</string>
+    <string name="weather_today_fragment">TODAY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
