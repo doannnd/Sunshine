@@ -8,18 +8,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.nguyendinhdoan.weatherapp.R;
+import com.nguyendinhdoan.weatherapp.ui.fragment.ForecastWeatherFragment;
 import com.nguyendinhdoan.weatherapp.ui.fragment.TodayWeatherFragment;
 
 public class MainAdapter extends FragmentPagerAdapter {
 
-    private static final int FRAGMENT_COUNT = 1;
+    private static final int FRAGMENT_COUNT = 2;
 
-    private Context context;
     private Location currentLocation;
+    private String[] titles = {
+            "TODAY", "5 DAY"
+    };
 
-    public MainAdapter(Context context, Location currentLocation, FragmentManager fm) {
+    public MainAdapter(Location currentLocation, FragmentManager fm) {
         super(fm);
-        this.context = context;
         this.currentLocation = currentLocation;
     }
 
@@ -28,6 +30,8 @@ public class MainAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return TodayWeatherFragment.newInstance(currentLocation);
+            case 1:
+                return ForecastWeatherFragment.newInstance(currentLocation);
             default:
                 return null;
         }
@@ -43,7 +47,9 @@ public class MainAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getString(R.string.weather_today_fragment);
+                return titles[0];
+            case 1:
+                return titles[1];
             default:
                 return null;
         }

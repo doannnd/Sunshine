@@ -1,13 +1,11 @@
 package com.nguyendinhdoan.weatherapp.ui.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,14 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.internal.StringResourceValueReader;
 import com.nguyendinhdoan.weatherapp.R;
 import com.nguyendinhdoan.weatherapp.common.Common;
 import com.nguyendinhdoan.weatherapp.data.model.WeatherResult;
 import com.nguyendinhdoan.weatherapp.data.remote.IOpenWeatherMap;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TodayWeatherFragment extends Fragment {
 
-    public static final String TAG = "TODAY WEATHER FRAGMENT";
+    private static final String TAG = "TODAY WEATHER FRAGMENT";
     private static final String ICON_SCHEME = "https";
     private static final String ICON_AUTHORITY = "openweathermap.org";
     private static final String ICON_IMG_KEY = "img";
@@ -74,6 +69,7 @@ public class TodayWeatherFragment extends Fragment {
     Unbinder unbinder;
 
     private IOpenWeatherMap openWeatherMapService;
+    private  CompositeDisposable compositeDisposable;
 
     public static TodayWeatherFragment newInstance(Location currentLocation) {
         TodayWeatherFragment todayWeatherFragment = new TodayWeatherFragment();
@@ -90,12 +86,6 @@ public class TodayWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         Context activity = getActivity();
         openWeatherMapService = Common.getRetrofitClient();
@@ -113,12 +103,12 @@ public class TodayWeatherFragment extends Fragment {
             }
         }
 
-
+        return view;
     }
 
     private void loadWeatherData(String latitude, String longitude, String appId, String unit) {
 
-        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(
                 openWeatherMapService
                         .getWeatherByLatLng(latitude, longitude, appId, unit)
@@ -126,68 +116,82 @@ public class TodayWeatherFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<WeatherResult>() {
                                        @Override
-                                       public void accept(WeatherResult weatherResult) throws Exception {
-
-                                           // Load icon image
-                                           String iconName = weatherResult.getWeather().get(0).getIcon();
-                                           String iconPath =
-                                                   new Uri.Builder().scheme(ICON_SCHEME)
-                                                           .authority(ICON_AUTHORITY)
-                                                           .appendPath(ICON_IMG_KEY)
-                                                           .appendPath(ICON_W_KEY)
-                                                           .appendPath(iconName + ICON_TYPE_KEY)
-                                                           .build().toString();
-                                           Log.d(TAG, "icon url: " + iconPath);
-                                           Picasso.get().load(iconPath).into(iconImageView);
-
-                                           // load city name
-                                           String cityName = weatherResult.getName();
-                                           cityTextView.setText(cityName);
-
-                                           // load temperature
-                                           String temperature = String.valueOf(weatherResult.getMain().getTemp());
-                                           temperatureTextView.setText(getString(R.string.temperature_value, temperature));
-
-                                           // load description
-                                           String description = weatherResult.getWeather().get(0).getDescription();
-                                           descriptionTextView.setText(description);
-
-                                           // load date time
-                                           int dateTime = weatherResult.getDt();
-                                           String timeFormatted = Common.convertUnixToDate(dateTime);
-                                           dateTimeTextView.setText(timeFormatted);
-
-                                           // load wind speed
-                                           double windSpeed = weatherResult.getWind().getSpeed();
-                                           windTextView.setText(getString(R.string.wind_value_text,
-                                                   String.valueOf(windSpeed)));
-
-                                           // load pressure
-                                           double pressure = weatherResult.getMain().getPressure();
-                                           pressureTextView.setText(getString(R.string.pressure_value_text,
-                                                   String.valueOf(pressure)));
-
-                                           // load humidity
-                                           double humidity = weatherResult.getMain().getHumidity();
-                                           humidityTextView.setText(getString(R.string.humidity_value_text,
-                                                   String.valueOf(humidity), "%"));
-
-                                           // load sunset
-                                           int sunset = weatherResult.getSys().getSunset();
-                                           String sunsetFormatted = Common.convertUnixToHour(sunset);
-                                           sunsetTextView.setText(getString(R.string.sunset_value_text,
-                                                   sunsetFormatted));
-
-                                           // load sunrise
-                                           int sunrise = weatherResult.getSys().getSunrise();
-                                           String sunriseFormatted = Common.convertUnixToHour(sunrise);
-                                           sunriseTextView.setText(getString(R.string.sunrise_value_text,
-                                                   sunriseFormatted));
-
-                                           loadingProgressbar.setVisibility(View.GONE);
+                                       public void accept(WeatherResult weatherResult) {
+                                           updateUI(weatherResult);
+                                       }
+                                   }, new Consumer<Throwable>() {
+                                       @Override
+                                       public void accept(Throwable throwable) {
+                                           Log.e(TAG, "Error load data from open weather map");
                                        }
                                    }
                         ));
+    }
+
+    private void updateUI(WeatherResult weatherResult) {
+        // Load icon image
+        String iconName = weatherResult.getWeather().get(0).getIcon();
+        String iconPath =
+                new Uri.Builder().scheme(ICON_SCHEME)
+                        .authority(ICON_AUTHORITY)
+                        .appendPath(ICON_IMG_KEY)
+                        .appendPath(ICON_W_KEY)
+                        .appendPath(iconName + ICON_TYPE_KEY)
+                        .build().toString();
+        Log.d(TAG, "icon url: " + iconPath);
+        Picasso.get().load(iconPath).into(iconImageView);
+
+        // load city name
+        String cityName = weatherResult.getName();
+        cityTextView.setText(cityName);
+
+        // load temperature
+        int temperature = (int) weatherResult.getMain().getTemp();
+        temperatureTextView.setText(getString(R.string.temperature_value, temperature));
+
+        // load description
+        String description = weatherResult.getWeather().get(0).getDescription();
+        descriptionTextView.setText(description);
+
+        // load date time
+        int dateTime = weatherResult.getDt();
+        String timeFormatted = Common.convertUnixToDate(dateTime);
+        dateTimeTextView.setText(timeFormatted);
+
+        // load wind speed
+        double windSpeed = weatherResult.getWind().getSpeed();
+        windTextView.setText(getString(R.string.wind_value_text,
+                String.valueOf(windSpeed)));
+
+        // load pressure
+        double pressure = weatherResult.getMain().getPressure();
+        pressureTextView.setText(getString(R.string.pressure_value_text,
+                String.valueOf(pressure)));
+
+        // load humidity
+        double humidity = weatherResult.getMain().getHumidity();
+        humidityTextView.setText(getString(R.string.humidity_value_text,
+                String.valueOf(humidity), "%"));
+
+        // load sunset
+        int sunset = weatherResult.getSys().getSunset();
+        String sunsetFormatted = Common.convertUnixToHour(sunset);
+        sunsetTextView.setText(getString(R.string.sunset_value_text,
+                sunsetFormatted));
+
+        // load sunrise
+        int sunrise = weatherResult.getSys().getSunrise();
+        String sunriseFormatted = Common.convertUnixToHour(sunrise);
+        sunriseTextView.setText(getString(R.string.sunrise_value_text,
+                sunriseFormatted));
+
+        loadingProgressbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
     }
 
     @Override

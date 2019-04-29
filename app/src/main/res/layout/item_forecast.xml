@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/icon_image_view"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/icon_weather_app"
+            tools:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/date_hour_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/icon_image_view"
+            android:layout_toStartOf="@id/temperature_text_view"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/amaranth"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:maxEms="6"
+            tools:text="10.00 AM" />
+
+        <TextView
+            android:id="@+id/date_day_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/icon_image_view"
+            android:layout_toStartOf="@id/temperature_text_view"
+            android:layout_below="@id/date_hour_text_view"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/amaranth"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:maxEms="6"
+            tools:text="Monday" />
+
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/icon_image_view"
+            android:layout_toStartOf="@id/temperature_text_view"
+            android:layout_below="@id/date_day_text_view"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/amaranth"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="Clear" />
+
+        <TextView
+            android:id="@+id/temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/amaranth"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            tools:text="32 °C" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

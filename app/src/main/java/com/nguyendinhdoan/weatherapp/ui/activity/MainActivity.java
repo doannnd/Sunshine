@@ -66,11 +66,15 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         initFusedLocation();
         getCurrentLocation();
+        setupTabLayout();
     }
 
     private void setupTabLayout() {
         tabLayout.setupWithViewPager(viewPager);
-        MainAdapter mainAdapter = new MainAdapter(this, currentLocation, getSupportFragmentManager());
+    }
+
+    private void setupViewPager() {
+        MainAdapter mainAdapter = new MainAdapter( currentLocation, getSupportFragmentManager());
         viewPager.setAdapter(mainAdapter);
     }
 
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+
                         }
                     }
 
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "current location latitude: " + currentLocation.getLatitude());
                 Log.d(TAG, "current location longitude: " + currentLocation.getLongitude());
 
-                setupTabLayout();
+                setupViewPager();
             }
         };
     }
