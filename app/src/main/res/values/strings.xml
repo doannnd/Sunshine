@@ -5,4 +5,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="icon_weather_app">icon weather app</string>
+    <string name="wind_value_text">Wind speed: %s m/s</string>
+    <string name="pressure_value_text">Pressure: %s hpa</string>
+    <string name="humidity_value_text">Humidity: %1$s %2$s</string>
+    <string name="sunrise_value_text">Sunrise: %s</string>
+    <string name="sunset_value_text">Sunset: %s</string>
+    <string name="request_internet">internet isn\'t connect</string>
+    <string name="logo_image_view">logo image view</string>
+    <string name="temperature_value">%s °C</string>
 </resources>

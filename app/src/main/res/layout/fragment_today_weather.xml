@@ -1,14 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.TodayWeatherFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/date_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/amaranth"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    tools:text="22/12/2019" />
+
+                <TextView
+                    android:id="@+id/city_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/date_time_text_view"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/amaranth"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    tools:text="Tokyo" />
+
+                <TextView
+                    android:id="@+id/temperature_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/city_text_view"
+                    android:layout_alignStart="@+id/city_text_view"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/amaranth"
+                    android:textColor="@android:color/white"
+                    android:textSize="50sp"
+                    tools:text="32 °C" />
+
+                <ImageView
+                    android:id="@+id/icon_image_view"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/date_time_text_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="16dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/icon_weather_app"
+                    tools:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/description_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/icon_image_view"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:fontFamily="@font/amaranth"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:maxEms="4"
+                    tools:text="Clear" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/wind_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/wind_value_text"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/pressure_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/pressure_value_text"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/humidity_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/humidity_value_text"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/sunrise_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/sunrise_value_text"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/sunset_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/sunset_value_text"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

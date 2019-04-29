@@ -24,6 +24,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nguyendinhdoan.weatherapp.R;
+import com.nguyendinhdoan.weatherapp.common.Common;
 import com.nguyendinhdoan.weatherapp.ui.adapter.MainAdapter;
 
 import java.util.List;
@@ -65,12 +66,11 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         initFusedLocation();
         getCurrentLocation();
-        setupTabLayout();
     }
 
     private void setupTabLayout() {
         tabLayout.setupWithViewPager(viewPager);
-        MainAdapter mainAdapter = new MainAdapter(this, getSupportFragmentManager());
+        MainAdapter mainAdapter = new MainAdapter(this, currentLocation, getSupportFragmentManager());
         viewPager.setAdapter(mainAdapter);
     }
 
@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 currentLocation = locationResult.getLastLocation();
                 Log.d(TAG, "current location latitude: " + currentLocation.getLatitude());
                 Log.d(TAG, "current location longitude: " + currentLocation.getLongitude());
+
+                setupTabLayout();
             }
         };
     }

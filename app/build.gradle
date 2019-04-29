@@ -28,16 +28,21 @@ dependencies {
     implementation "com.android.support:support-media-compat:$google_support"
     // third party library
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    // dexter library check permission grant
     implementation 'com.karumi:dexter:5.0.0'
+    // play services location load coordinator
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    // picasso load image
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.5.0'
+    // retrofit
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // rx java
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    // butter knife reference id
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     //testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
