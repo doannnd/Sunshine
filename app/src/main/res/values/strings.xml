@@ -14,4 +14,5 @@
     <string name="request_internet">internet isn\'t connect</string>
     <string name="logo_image_view">logo image view</string>
     <string name="temperature_value">%d °C</string>
+    <string name="not_found_location">Not found location</string>
 </resources>
